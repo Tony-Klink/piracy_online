@@ -1,14 +1,17 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
 import Mushroom from '../sprites/Mushroom'
+import Coin from '../sprites/Coin'
 
 export default class extends Phaser.State {
   init () {}
   preload () {}
 
   create () {
+    this.game.physics.startSystem(Phaser.Physics.ARCADE)
+
     const bannerText = 'Phaser + ES6 + Webpack'
-    let banner = this.add.text(this.world.centerX, this.game.height - 80, bannerText)
+    let banner = this.add.text(this.world.centerX, this.game.height - 20, bannerText)
     banner.font = 'Bangers'
     banner.padding.set(10, 16)
     banner.fontSize = 40
@@ -22,8 +25,16 @@ export default class extends Phaser.State {
       y: this.world.centerY,
       asset: 'mushroom'
     })
-
+    this.game.physics.arcade.enable(this.mushroom)
     this.game.add.existing(this.mushroom)
+
+    this.coin = new Coin({
+      game: this.game,
+      x: parseInt(Math.random() * 400, 10),
+      y: parseInt(Math.random() * 400, 10),
+      asset: 'coin'
+    })
+    this.game.add.existing(this.coin)
   }
 
   render () {
